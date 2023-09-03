@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+
+<div id="carouselExample" class="carousel slide" style="width: 50%; margin:auto">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{%static 'banner/1.webp'%}" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="{%static 'banner/2.webp'%}" class="d-block w-100" alt="...">
+      </div>
+      
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <br>
+  <h2 style="text-align: center;">Category</h2>
+  <div class="container card-group" >
+    {% for i in category %}
+    <div class="card "overflow-auto" style="width: 20rem; margin: 5px">
+        <img src="{{i.cat_image.url}}" class="card-img-top" alt="{{product.product_name}}">
+        <div class="card-body">
+          <h5 class="card-title">{{i.category_name}}</h5>
+          <p class="card-text"></p>
+        </div>
+        
+        <div class="card-body">
+          <a href="{% url 'products_by_category' i.slug %}" class="btn btn-success btn-sm card-link">Find Now</a>
+        </div>
+      </div>
+      {%endfor%}
+  </div>
+
+  
+
+{%endblock%}

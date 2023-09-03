@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="mb-40">
+    <!-- Jumbotron -->
+    <div class="px-6 py-12 text-center md:px-12 lg:text-left">
+      <div class="w-100 mx-auto sm:max-w-2xl md:max-w-3xl lg:max-w-5xl xl:max-w-7xl xl:px-32">
+        <div class="grid items-center lg:grid-cols-2">
+          <form action="{% url 'add_cart' single_product.id %}"method="POST">
+            {% csrf_token %}
+            <div class="mb-12 md:mt-12 lg:mt-0 lg:mb-0">
+              <div
+                class="block rounded-lg bg-[hsla(0,0%,100%,0.55)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-[hsla(0,0%,5%,0.55)] dark:shadow-black/20 md:px-12 lg:-mr-14 backdrop-blur-[30px]">
+                <h1 class=" text-2xl font-bold tracking-tight">
+                  {{ single_product.product_name }}
+                </h1>
+                <h5 class='text-lg mt-3 font-bold'>Price - $ {{ single_product.price }}</h5>
+                <p class='mt-4'>{{single_product.description}}</p>
+                {% if user.is_authenticated %}
+                <form method="post">
+                  {% csrf_token %}
+                  <a href="{% url 'cart' %}">
+                    <button type="submit" class="text-white font-bold text-md mt-8 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      <svg class="w-6 h-6 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
+                        <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+                      </svg>
+                      
+                      Add To Cart
+                    </button>
+                  </a>
+                  
+              </form>
+              {% else %}
+              <a href="{% url 'login' %}">Login to Buy</a>
+              {% endif %}
+              </div>
+            </div>
+          </form>
+          
+          <div class="md:mb-12 lg:mb-0">
+            <img src="{{ single_product.images.url }}"
+              class="w-[27rem] rounded-lg shadow-lg dark:shadow-black/20" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Jumbotron -->
+  </section>
+{% endblock  %}

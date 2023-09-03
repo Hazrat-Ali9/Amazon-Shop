@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="min-w-screen min-h-screen bg-gray-50 py-5">
+    <div class="px-5">
+        <div class="mb-2">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-600 text-center">Checkout.</h1>
+        </div>
+    </div>
+    {% if not cart_items %}
+    <section class="bg-white dark:bg-gray-900 ">
+        <div class="container flex items-center min-h-screen px-6 py-12 mx-auto">
+            <div class="flex flex-col items-center max-w-sm mx-auto text-center">
+                <p class="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                    </svg>
+                </p>
+                <h1 class="mt-3 text-2xl font-semibold text-gray-800 dark:text-white md:text-3xl">Page not found</h1>
+                <p class="mt-4 text-gray-500 dark:text-gray-400">The page you are looking for doesn't exist. Here are some helpful links:</p>
+    
+                <div class="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
+                    <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:rotate-180">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                        </svg>
+    
+    
+                        <span>Go back</span>
+                    </button>
+    
+                    <button class="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                        Take me home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <div class="w-full bg-white border-t border-b border-gray-200 px-5 py-10 text-gray-800">
+        <div class="w-full">
+            <div class="-mx-3 md:flex items-start">
+                <div class="px-3 md:w-7/12 lg:pr-10">
+                    <div class="w-full mx-auto text-gray-800 font-light mb-6 border-b border-gray-200 pb-6">
+                        {% for cart_item in cart_items %}
+                        <div class="w-full flex items-center">
+                            <div class="overflow-hidden rounded-lg w-40 h-40 bg-gray-50 border border-gray-200">
+                                <img src="{{cart_item.product.images.url}}" alt="">
+                            </div>
+                            <div class="flex-grow pl-3">
+                                <a href="">
+                                    <h6 class="font-semibold uppercase text-gray-600">{{cart_item.product.product_name}}</h6>
+                                </a>
+                                
+                             
+                            </div>
+                            <div class="inline-flex items-center mt-2">
+                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"
+                                type='button'
+                                id='button-plus'
+                                  class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                > Minus
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-4"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="M12 4v16m8-8H4"
+                                    />
+                                  </svg>
+                                </a>
+                                
+                                <div
+                                  class="bg-gray-100 border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none"
+                                >
+                                  <input type="text" class='form-controm'value="{{cart_item.quantity}}">
+                                </div>
+                                <form action="{% url 'add_cart' cart_item.product.id %}"method="POST">
+                                    {% csrf_token %}
+                                    <button
+                                    type="submit"
+                                    id="button-minus"
+                                      class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
+                                    >Plus
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                      >
+                                        <path
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          stroke-width="2"
+                                          d="M20 12H4"
+                                        />
+                                      </svg>
+                                    </button>
+                                </form>
+                              </div>
+                        </div>
+                    </div>
+                    <div class="mb-6 pb-6 border-b border-gray-200 text-gray-800">
+                        <div class="w-full flex mb-3 items-center">
+                            <div class="flex-grow">
+                                <span class="text-gray-600">$ {{cart_item.sub_total}}</span>
+                            </div>
+                            <div class="pl-3">
+                                <span class="font-semibold">$ {{cart_item.product.price}}</span>
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center">
+                            <div class="flex-grow">
+                                <span class="text-gray-600">Taxes (GST)</span>
+                            </div>
+                            <div class="pl-3">
+                                <span class="font-semibold">$19.09</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="mb-6 pb-6 border-b border-gray-200 md:border-none text-gray-800 text-xl">
+                        <div class="w-full flex items-center">
+                            <div class="flex-grow">
+                                <span class="text-gray-600">$ {{total}}</span>
+                            </div>
+                            <div class="flex-grow">
+                                <span class="text-gray-600">$ {{tax}}</span>
+                            </div>
+                            <div class="pl-3">
+                                <span class="font-semibold text-gray-400 text-sm">AUD</span> <span class="font-semibold">$ {{grand_total}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="px-3 md:w-5/12">
+                    <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 p-3 text-gray-800 font-light mb-6">
+                        <div class="w-full flex mb-3 items-center">
+                            <div class="w-32">
+                                <span class="text-gray-600 font-semibold">Contact</span>
+                            </div>
+                            <div class="flex-grow pl-3">
+                                <span>Scott Windon</span>
+                            </div>
+                        </div>
+                        <div class="w-full flex items-center">
+                            <div class="w-32">
+                                <span class="text-gray-600 font-semibold">Billing Address</span>
+                            </div>
+                            <div class="flex-grow pl-3">
+                                <span>123 George Street, Sydney, NSW 2000 Australia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full mx-auto rounded-lg bg-white border border-gray-200 text-gray-800 font-light mb-6">
+                        <div class="w-full p-3 border-b border-gray-200">
+                            <div class="mb-5">
+                                <label for="type1" class="flex items-center cursor-pointer">
+                                    <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked>
+                                    <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png" class="h-6 ml-3">
+                                </label>
+                            </div>
+                            <div>
+                                <div class="mb-3">
+                                    <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Name on card</label>
+                                    <div>
+                                        <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Card number</label>
+                                    <div>
+                                        <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="0000 0000 0000 0000" type="text"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3 -mx-2 flex items-end">
+                                    <div class="px-2 w-1/4">
+                                        <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Expiration date</label>
+                                        <div>
+                                            <select class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
+                                                <option value="01">01 - January</option>
+                                                <option value="02">02 - February</option>
+                                                <option value="03">03 - March</option>
+                                                <option value="04">04 - April</option>
+                                                <option value="05">05 - May</option>
+                                                <option value="06">06 - June</option>
+                                                <option value="07">07 - July</option>
+                                                <option value="08">08 - August</option>
+                                                <option value="09">09 - September</option>
+                                                <option value="10">10 - October</option>
+                                                <option value="11">11 - November</option>
+                                                <option value="12">12 - December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="px-2 w-1/4">
+                                        <select class="form-select w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                        </select>
+                                    </div>
+                                    <div class="px-2 w-1/4">
+                                        <label class="text-gray-600 font-semibold text-sm mb-2 ml-1">Security code</label>
+                                        <div>
+                                            <input class="w-full px-3 py-2 mb-1 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="000" type="text"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full p-3">
+                            <label for="type2" class="flex items-center cursor-pointer">
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" width="80" class="ml-3"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-2 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="p-5">
+        <div class="text-center text-gray-400 text-sm">
+            <a href="https://www.buymeacoffee.com/scottwindon" target="_blank" class="focus:outline-none underline text-gray-400"><i class="mdi mdi-beer-outline"></i>Buy me a beer</a> and help support open-resource
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}

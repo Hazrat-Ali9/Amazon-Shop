@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Buy & Sell</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'store' %}">All Products</a></li>
+            {%for i in category%}
+            <li><a class="dropdown-item" href="{% url 'products_by_category' i.slug %}">{{ i.category_name }}</a></li>
+            {%endfor%}
+          </ul>
+        </li>
+        {%if user.is_authenticated%}
+        <li class="nav-item">
+          <a class="btn btn-outline-info" href="{% url 'add_product' %}">Post for sale</a>
+        </li>
+        {%else%}
+        <li class="nav-item">
+          <a class="btn btn-outline-info" href="{% url 'login' %}">Post for sale</a>
+        </li>
+        {%endif%}
+        
+      <form action="{% url 'search' %}" class="d-flex"  role="search" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name = 'keyword'>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+    <div>
+      {%if user.id is None%}
+      <a class="btn btn-success" href="{% url 'login' %}">Login </a>
+
+      <a class="btn btn-info" href="{% url 'register' %}">Register</a>
+      {%else%}
+      <div>
+        <h6 style="color: white;"><b> Welcome {{user.username}}</b></h6>
+        
+        <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+      </div>
+      
+
+      {%endif%}
+
+    </div>
+  </div>
+  
+</nav>
